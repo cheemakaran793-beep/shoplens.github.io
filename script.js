@@ -6,13 +6,14 @@ function showPage(pageId) {
   let pages = document.querySelectorAll(".page");
 
   pages.forEach(p => {
-    p.classList.add("hidden");
+    p.classList.remove("active");
   });
 
   const activePage = document.getElementById(pageId);
   if (activePage) {
-    activePage.classList.remove("hidden");
+    activePage.classList.add("active");
   }
+}
 }
 
 // ===============================
