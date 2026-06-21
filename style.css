@@ -560,3 +560,11 @@ body {
 #home {
   display: block;
 }
+body {
+  font-family: "DM Sans", sans-serif;
+}
+
+h1, h2, .headline, .logo {
+  font-family: "Syne", sans-serif;
+  font-weight: 700;
+}
