@@ -1,14 +1,15 @@
 /* RESET */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* BODY - Exact background gradient from your screenshot */
 body {
   font-family: 'DM Sans', sans-serif;
-  /* This creates that soft transition from light green-blue to purple/white */
-  background: radial-gradient(circle at top left, #eef2ff 0%, #f5f3ff 50%, #ffffff 100%);
+  /* This specific gradient matches the light, soft look from your original image */
+  background: linear-gradient(180deg, #eef2ff 0%, #f7f5ff 50%, #ffffff 100%);
   color: #1a1a1a;
   min-height: 100vh;
-  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* NAVBAR */
@@ -16,83 +17,78 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 30px 40px;
+  width: 100%;
+  max-width: 900px;
+  padding: 30px 20px;
 }
 
-/* HERO - Force side-by-side alignment */
+.nav-btn {
+  background: #5b21b6;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 50px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* HERO SECTION - Vertical stack to match your original layout */
 .hero {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 60px 40px;
-  gap: 60px;
+  text-align: center;
+  max-width: 600px;
+  padding: 40px 20px;
 }
 
-.hero-left {
-  flex: 1;
-}
-
-.hero-right {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* HEADLINE - Tight spacing */
-.headline { 
-  font-family: 'Syne', sans-serif; 
-  font-size: 64px; 
-  line-height: 1; 
-  margin-bottom: 25px; 
-}
-
+.headline { font-family: 'Syne', sans-serif; font-size: 56px; line-height: 1.1; margin-bottom: 20px; }
 .ai-text { color: #5b21b6; }
+.subtext { color: #4b5563; margin-bottom: 30px; line-height: 1.6; }
 
-/* CTA CARD - Exact styling from screenshot */
+/* CTA CARD - The white glassmorphism look */
 .cta-card {
-  display: flex;
-  align-items: center;
-  gap: 20px;
   background: white;
   padding: 20px;
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
   border: 1px solid rgba(0,0,0,0.05);
-  cursor: pointer;
+  margin-bottom: 30px;
+  width: 100%;
 }
 
 .arrow {
   margin-left: auto;
-  background: #1f2937;
+  background: #5b21b6;
   color: white;
-  border-radius: 50%;
   width: 45px;
   height: 45px;
+  border-radius: 50%;
   border: none;
+  cursor: pointer;
 }
 
-/* ORB - Adjusted to look like your screenshot */
+/* ORB - Centered below content */
+.hero-right {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
 .orb {
-  width: 320px;
-  height: 320px;
-  background: radial-gradient(circle at 30% 30%, #a855f7, #22c55e);
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle at 30% 30%, #a78bfa, #4c1d95);
   border-radius: 50%;
+  box-shadow: 0 20px 40px rgba(124, 92, 252, 0.2);
   animation: float 4s ease-in-out infinite;
 }
 
 @keyframes float {
   0% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
+  50% { transform: translateY(-15px); }
   100% { transform: translateY(0px); }
-}
-
-@media (max-width: 768px) {
-  .hero { flex-direction: column; text-align: center; }
-  .hero-left { max-width: 100%; }
 }
