@@ -9,9 +9,9 @@ function showPage(pageId) {
     page.style.display = "none";
   });
 
-  const active = document.getElementById(pageId);
-  if (active) {
-    active.style.display = "block";
+  const target = document.getElementById(pageId);
+  if (target) {
+    target.style.display = "block";
   }
 }
 
