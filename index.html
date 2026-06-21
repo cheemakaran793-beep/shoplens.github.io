@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ShopLens – AI Shopping Engine</title>
+  <title>ShopLens – Find Anything You See</title>
 
   <link rel="stylesheet" href="style.css"/>
 
@@ -14,123 +14,83 @@
 
 <body>
 
-  <!-- 🌐 NAVBAR -->
+  <!-- ✨ sparkles -->
+  <div class="sparkle s1">✦</div>
+  <div class="sparkle s2">✦</div>
+  <div class="sparkle s3">+</div>
+  <div class="sparkle s4">✦</div>
+
+  <!-- NAVBAR -->
   <nav class="navbar">
     <div class="logo">ShopLens</div>
-
-    <div class="nav-links">
-      <button onclick="showPage('home')">Home</button>
-      <button onclick="showPage('ai')">AI</button>
-      <button onclick="showPage('trending')">Trending</button>
-      <button onclick="showPage('assistant')">Assistant</button>
-      <button onclick="showPage('about')">About</button>
-    </div>
+    <button class="nav-btn">📷 Get Started</button>
   </nav>
 
-  <!-- 🏠 HOME PAGE (YOUR ORIGINAL DESIGN AREA) -->
-  <section id="home" class="page">
+  <!-- HERO -->
+  <section class="hero">
 
-    <div class="hero">
-      <div class="hero-left">
+    <div class="hero-left">
+      <h1 class="headline">
+        Find anything<br>
+        you see<br>
+        with <span class="ai-text">AI.</span>
+      </h1>
 
-        <h1 class="headline">
-          Find anything<br>
-          you see<br>
-          with <span class="ai-text">AI.</span>
-        </h1>
+      <p class="subtext">
+        Upload a screenshot and let our AI identify the product,
+        compare prices, and find where to buy it instantly.
+      </p>
 
-        <p class="subtext">
-          ShopLens helps you detect products, compare prices,
-          and find the best deals instantly.
-        </p>
-
-        <div class="cta-card" onclick="showPage('ai')">
-          <div class="cta-icon">📷</div>
-          <div class="cta-words">
-            <strong>Enter ShopLens AI</strong>
-            <span>Search outfits & products instantly</span>
-          </div>
-          <button class="arrow">→</button>
+      <div class="cta-card">
+        <div class="cta-icon">📷</div>
+        <div class="cta-words">
+          <strong>Get Started</strong>
+          <span>Upload a screenshot to find products</span>
         </div>
+        <button class="arrow">→</button>
+      </div>
 
-        <div class="badges">
-          <span>🛡 Fast</span>
-          <span>🎯 Accurate</span>
-          <span>🔒 Private</span>
-        </div>
-
+      <div class="badges">
+        <span>🛡 Fast</span>
+        <span>🎯 Accurate</span>
+        <span>🔒 Private</span>
       </div>
     </div>
 
-    <section class="features">
-      <div class="feat">
-        <h3>🔍 Identify</h3>
-        <p>AI detects products from images</p>
+    <!-- ORB -->
+    <div class="hero-right">
+      <div class="orb-wrap">
+        <div class="orb">
+          <div class="shine"></div>
+        </div>
       </div>
-
-      <div class="feat">
-        <h3>🏷 Compare</h3>
-        <p>Compare prices across stores</p>
-      </div>
-
-      <div class="feat">
-        <h3>🛍 Buy</h3>
-        <p>Find best deals instantly</p>
-      </div>
-    </section>
+    </div>
 
   </section>
 
-  <!-- 🤖 AI PAGE -->
-  <section id="ai" class="page">
+  <!-- FEATURES -->
+  <section class="features">
 
-    <h2>ShopLens AI</h2>
+    <div class="feat">
+      <div class="feat-icon">🔍</div>
+      <h3>Identify</h3>
+      <p>AI detects products instantly</p>
+    </div>
 
-    <input id="searchBox" placeholder="Ask: shoes, outfit, gym..."/>
-    <button onclick="searchAI()">Search</button>
+    <div class="feat">
+      <div class="feat-icon">🏷</div>
+      <h3>Compare</h3>
+      <p>Find best prices across stores</p>
+    </div>
 
-    <div id="results"></div>
-
-  </section>
-
-  <!-- 🔥 TRENDING -->
-  <section id="trending" class="page">
-
-    <h2>🔥 Trending Products</h2>
-
-    <div class="card">Nike Shoes</div>
-    <div class="card">Streetwear Hoodie</div>
-    <div class="card">Luxury Watch</div>
-
-  </section>
-
-  <!-- 🧠 ASSISTANT -->
-  <section id="assistant" class="page">
-
-    <h2>AI Assistant</h2>
-
-    <input placeholder="Ask styling question..."/>
-    <button>Ask</button>
-
-  </section>
-
-  <!-- 👤 ABOUT -->
-  <section id="about" class="page">
-
-    <h2>About ShopLens</h2>
-
-    <p>
-      ShopLens is an AI-powered shopping assistant that helps users
-      find outfits, compare products, and shop smarter.
-    </p>
+    <div class="feat">
+      <div class="feat-icon">🛍</div>
+      <h3>Buy</h3>
+      <p>Shop from trusted links</p>
+    </div>
 
   </section>
 
   <script src="script.js"></script>
 </body>
 </html>
-<div class="hero-right">
-  <div class="orb-wrap">
-    <div class="orb"></div>
-  </div>
-</div>
