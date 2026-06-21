@@ -370,3 +370,171 @@ body {
   .navbar { padding: 16px 20px; }
   .headline { letter-spacing: -1.5px; }
 }
+/* ORB */
+.orb-wrap {
+  position: relative;
+  width: 280px;
+  height: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: float 4s ease-in-out infinite;
+}
+
+.orb {
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  position: relative;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(181,242,58,0.95) 0%, transparent 35%),
+    radial-gradient(circle at 68% 60%, rgba(124,92,252,0.9) 0%, transparent 32%),
+    radial-gradient(circle at 45% 75%, rgba(181,242,58,0.7) 0%, transparent 28%),
+    radial-gradient(circle at 20% 65%, rgba(167,139,250,0.6) 0%, transparent 25%),
+    radial-gradient(circle at 75% 25%, rgba(181,242,58,0.5) 0%, transparent 22%),
+    radial-gradient(circle at 50% 50%, #7a4fff 0%, #2a1570 100%);
+  box-shadow:
+    0 0 60px rgba(181,242,58,0.3),
+    0 0 100px rgba(124,92,252,0.4),
+    inset 0 0 40px rgba(0,0,0,0.2);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* Shine */
+.shine {
+  position: absolute;
+  width: 55%;
+  height: 45%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.35) 0%, transparent 70%);
+  top: 8%;
+  left: 10%;
+  transform: rotate(-20deg);
+}
+
+/* Bubbles */
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.6), rgba(181,242,58,0.9) 40%, rgba(120,200,40,0.7));
+  box-shadow: inset -2px -2px 6px rgba(0,0,0,0.15), 0 0 12px rgba(181,242,58,0.5);
+}
+.b1 { width: 52px; height: 52px; top: 12%; left: 14%; }
+.b2 { width: 44px; height: 44px; top: 10%; left: 52%; background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.5), rgba(181,242,58,0.85) 40%, rgba(100,180,30,0.7)); }
+.b3 { width: 38px; height: 38px; top: 48%; left: 8%; }
+.b4 { width: 48px; height: 48px; top: 52%; left: 55%; background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.4), rgba(124,92,252,0.8) 40%, rgba(80,40,180,0.7)); box-shadow: inset -2px -2px 6px rgba(0,0,0,0.2), 0 0 12px rgba(124,92,252,0.5); }
+.b5 { width: 32px; height: 32px; top: 70%; left: 20%; }
+.b6 { width: 36px; height: 36px; top: 25%; left: 68%; }
+
+/* Web lines */
+.web {
+  position: absolute;
+  background: rgba(255,255,255,0.5);
+  height: 1.5px;
+  transform-origin: left center;
+  border-radius: 2px;
+}
+.w1 { width: 80px; top: 30%; left: 20%; transform: rotate(25deg); }
+.w2 { width: 70px; top: 55%; left: 30%; transform: rotate(-30deg); }
+.w3 { width: 60px; top: 42%; left: 50%; transform: rotate(15deg); }
+
+/* Rings */
+.ring-wrap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+  width: 240px;
+  height: 240px;
+}
+
+.orb-ring {
+  position: absolute;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+}
+
+.r1 {
+  width: 310px;
+  height: 95px;
+  border: 1.5px solid rgba(181,242,58,0.55);
+  margin-left: -155px;
+  margin-top: -47px;
+  transform: rotateX(72deg) rotateZ(-15deg);
+  animation: spinRing 7s linear infinite;
+}
+
+.r2 {
+  width: 290px;
+  height: 80px;
+  border: 1.5px solid rgba(167,139,250,0.4);
+  margin-left: -145px;
+  margin-top: -40px;
+  transform: rotateX(72deg) rotateZ(35deg);
+  animation: spinRing 10s linear infinite reverse;
+}
+
+/* Glow dots */
+.gdot {
+  position: absolute;
+  border-radius: 50%;
+  width: 9px;
+  height: 9px;
+}
+.gd1 {
+  background: #b5f23a;
+  box-shadow: 0 0 8px #b5f23a, 0 0 18px #b5f23a;
+  top: 5%;
+  left: 60%;
+  animation: blink 2s ease-in-out infinite;
+}
+.gd2 {
+  background: #a78bfa;
+  box-shadow: 0 0 8px #a78bfa, 0 0 18px #a78bfa;
+  top: 68%;
+  left: 82%;
+  animation: blink 2.8s ease-in-out infinite 0.6s;
+}
+.gd3 {
+  background: #b5f23a;
+  box-shadow: 0 0 8px #b5f23a, 0 0 18px #b5f23a;
+  top: 40%;
+  left: 0%;
+  animation: blink 3.2s ease-in-out infinite 1.2s;
+}
+
+/* Platform */
+.platform {
+  width: 200px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(180,160,255,0.3);
+  border: 1px solid rgba(255,255,255,0.4);
+  backdrop-filter: blur(8px);
+  margin-top: -8px;
+  flex-shrink: 0;
+}
+
+.plat-shadow {
+  width: 160px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(100,70,220,0.2);
+  filter: blur(10px);
+  margin-top: 4px;
+}
+
+@keyframes spinRing {
+  from { transform: rotateX(72deg) rotateZ(0deg); }
+  to   { transform: rotateX(72deg) rotateZ(360deg); }
+}
+
+@media (max-width: 650px) {
+  .orb-wrap { width: 220px; height: 280px; }
+  .orb { width: 190px; height: 190px; }
+  .r1 { width: 250px; height: 76px; margin-left: -125px; margin-top: -38px; }
+  .r2 { width: 230px; height: 64px; margin-left: -115px; margin-top: -32px; }
+  .platform { width: 160px; }
+}
