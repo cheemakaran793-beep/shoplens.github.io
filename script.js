@@ -1,17 +1,29 @@
-// Scroll to CTA on button click
-document.querySelector('.nav-btn').addEventListener('click', () => {
-  document.querySelector('.cta-card').scrollIntoView({ behavior: 'smooth' });
+const cards = document.querySelectorAll('.feat');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }, i * 130);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+cards.forEach(card => {
+  card.style.opacity = '0';
+  card.style.transform = 'translateY(28px)';
+  card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  observer.observe(card);
 });
 
-// Click action for CTA
-document.querySelector('.cta-card').addEventListener('click', () => {
-  alert('Shoplens AI engine is activating...');
+const cta = document.querySelector('.cta-card');
+cta?.addEventListener('click', () => {
+  alert('📷 AI image upload coming soon!');
 });
 
-// Simple fade-in for features
-const features = document.querySelectorAll('.feat');
-features.forEach((feat, index) => {
-  feat.style.opacity = '0';
-  feat.style.transition = `opacity 0.8s ease ${index * 0.2}s`;
-  setTimeout(() => { feat.style.opacity = '1'; }, 100);
+const navBtn = document.querySelector('.nav-btn');
+navBtn?.addEventListener('click', () => {
+  cta?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 });
