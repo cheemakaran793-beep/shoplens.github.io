@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shoplens – AI Assistant</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="sparkle s1">✦</div>
+
+  <nav class="navbar">
+    <div class="logo">shoplens</div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="search.html" class="nav-link">AI Search</a>
+      <a href="trending.html" class="nav-link">Trending</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="assistant.html" class="nav-link active">Assistant</a>
+    </div>
+    <div class="nav-right">
+      <button class="theme-btn" onclick="toggleTheme()">🌙</button>
+    </div>
+  </nav>
+
+  <div class="page-hero" style="padding-bottom:20px">
+    <h1>AI <span class="ai-text">Assistant</span></h1>
+    <p>Ask me anything — product help, scam checks, bugs, shopping advice. I'm here 24/7!</p>
+  </div>
+
+  <div class="chat-wrap">
+    <div class="chat-messages" id="chatMessages">
+      <div class="msg bot">
+        <div class="msg-avatar">🤖</div>
+        <div class="msg-bubble">Hey! 👋 I'm your Shoplens AI Assistant. Ask me anything about products, shopping, scam checks, or how to use Shoplens!</div>
+      </div>
+      <div class="msg bot">
+        <div class="msg-avatar">🤖</div>
+        <div class="msg-bubble">Try asking things like:<br>• "Is this product a scam?"<br>• "Best budget headphones?"<br>• "How does Shoplens work?"<br>• "Why is my search not working?"</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chat-input-bar">
+    <input class="chat-input" id="chatInput" placeholder="Ask me anything..." />
+    <button class="chat-send" onclick="sendMessage()">→</button>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    const API_KEY = 'AIzaSyAQ.Ab8RN6KxBqxazSg6DnLNPUCPqu-KywRIoqVSJqTkUKuT4QOKRg';
+    const history = [];
+
+    document.getElementById('chatInput').addEventListener('keypress', e => {
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    async function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+
+      addMessage(text, 'user');
+      history.push({ role: 'user', parts: [{ text }] });
+
+      addMessage('...', 'bot', 'typing');
+
+      try {
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [
+              { role: 'user', parts: [{ text: 'You are Shoplens AI Assistant — friendly, helpful, expert in shopping, products, scam detection and the Shoplens app. Keep answers concise and helpful.' }] },
+              ...history
+            ]
+          })
+        });
+        const data = await res.json();
+        const reply = data.candidates[0].content.parts[0].text;
+        history.push({ role: 'model', parts: [{ text: reply }] });
+
+        removeTyping();
+        addMessage(reply, 'bot');
+      } catch (e) {
+        removeTyping();
+        addMessage('Sorry, something went wrong. Please try again! 🙏', 'bot');
+      }
+    }
+
+    function addMessage(text, type, id = '') {
+      const wrap = document.getElementById('chatMessages');
+      const div = document.createElement('div');
+      div.className = `msg ${type}`;
+      if (id) div.id = id;
+      div.innerHTML = type === 'bot'
+        ? `<div class="msg-avatar">🤖</div><div class="msg-bubble">${text}</div>`
+        : `<div class="msg-bubble">${text}</div>`;
+      wrap.appendChild(div);
+      wrap.scrollTop = wrap.scrollHeight;
+    }
+
+    function removeTyping() {
+      const t = document.getElementById('typing');
+      if (t) t.remove();
+    }
+  </script>
+</body>
+</html>
