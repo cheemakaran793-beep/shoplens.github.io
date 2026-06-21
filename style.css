@@ -568,3 +568,12 @@ h1, h2, .headline, .logo {
   font-family: "Syne", sans-serif;
   font-weight: 700;
 }
+body {
+  letter-spacing: 0.2px;
+  -webkit-font-smoothing: antialiased;
+}
+
+p {
+  opacity: 0.85;
+  line-height: 1.6;
+}
