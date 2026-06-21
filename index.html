@@ -14,6 +14,12 @@
 
 <body>
 
+  <!-- ✨ sparkles (KEEP YOUR DESIGN) -->
+  <div class="sparkle s1">✦</div>
+  <div class="sparkle s2">✦</div>
+  <div class="sparkle s3">+</div>
+  <div class="sparkle s4">✦</div>
+
   <!-- 🌐 NAVBAR -->
   <nav class="navbar">
     <div class="logo">ShopLens</div>
@@ -27,11 +33,71 @@
     </div>
   </nav>
 
-  <!-- 🏠 HOME PAGE -->
+  <!-- 🏠 HOME (YOUR FULL ORIGINAL DESIGN RESTORED) -->
   <section id="home" class="page active">
 
-    <h1>ShopLens</h1>
-    <p>Search. Scan. Style. Shop.</p>
+    <section class="hero">
+      <div class="hero-left">
+
+        <h1 class="headline">
+          Find anything<br>
+          you see<br>
+          with <span class="ai-text">AI.</span>
+        </h1>
+
+        <p class="subtext">
+          Upload a screenshot and let our AI identify products,
+          compare prices, and find best deals instantly.
+        </p>
+
+        <div class="cta-card" onclick="showPage('ai')">
+          <div class="cta-icon">📷</div>
+          <div class="cta-words">
+            <strong>Enter ShopLens AI</strong>
+            <span>Search products & outfits instantly</span>
+          </div>
+          <button class="arrow">→</button>
+        </div>
+
+        <div class="badges">
+          <span>🛡 Fast</span>
+          <span>🎯 Accurate</span>
+          <span>🔒 Private</span>
+        </div>
+
+      </div>
+
+      <!-- ORB VISUAL (UNCHANGED) -->
+      <div class="hero-right">
+        <div class="orb-wrap">
+          <div class="orb"></div>
+          <div class="platform"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES (RESTORED VISUALS) -->
+    <section class="features">
+
+      <div class="feat">
+        <div class="feat-icon">🔍</div>
+        <h3>Identify</h3>
+        <p>Detect products from images instantly</p>
+      </div>
+
+      <div class="feat">
+        <div class="feat-icon">🏷</div>
+        <h3>Compare</h3>
+        <p>Compare prices across stores</p>
+      </div>
+
+      <div class="feat">
+        <div class="feat-icon">🛍</div>
+        <h3>Buy</h3>
+        <p>Get best deals & trusted links</p>
+      </div>
+
+    </section>
 
   </section>
 
@@ -47,30 +113,30 @@
 
   </section>
 
-  <!-- 🔥 TRENDING PAGE -->
+  <!-- 🔥 TRENDING -->
   <section id="trending" class="page">
 
     <h2>🔥 Trending Products</h2>
 
     <div class="card">Nike Shoes</div>
-    <div class="card">Hoodie</div>
-    <div class="card">Watch</div>
+    <div class="card">Streetwear Hoodie</div>
+    <div class="card">Luxury Watch</div>
 
   </section>
 
-  <!-- 🧠 ASSISTANT PAGE -->
+  <!-- 🧠 ASSISTANT -->
   <section id="assistant" class="page">
 
     <h2>AI Assistant</h2>
 
-    <p>Ask styling questions here</p>
+    <p>Ask styling questions</p>
 
     <input placeholder="What matches black jeans?"/>
     <button>Ask</button>
 
   </section>
 
-  <!-- 👤 ABOUT PAGE -->
+  <!-- 👤 ABOUT -->
   <section id="about" class="page">
 
     <h2>About ShopLens</h2>
