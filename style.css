@@ -661,17 +661,3 @@ body {
   .features { overflow-x: visible; margin: 0 24px 40px; }
   .chat-input-bar { left: 50%; transform: translateX(-50%); border-radius: 20px 20px 0 0; }
 }
-/* --- FIX FOR MOBILE HEADING VISIBILITY --- */
-@media (max-width: 650px) {
-  .headline {
-    opacity: 1 !important;
-    visibility: visible !important;
-    display: block !important;
-    /* This overrides any hidden state applied by animations */
-  }
-
-  .hero-left {
-    opacity: 1 !important;
-    visibility: visible !important;
-  }
-}
