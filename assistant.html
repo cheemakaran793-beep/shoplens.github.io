@@ -49,7 +49,7 @@
 
   <script src="script.js"></script>
   <script>
-    const API_KEY = 'AQ.Ab8RN6LLOIPDJ94G-IyPSz9fhnswnNo8dEtrnwO6poGqHgQ-Gg';
+    const API_KEY = 'AQ.Ab8RN6IqnijgqJPFT73zv98jXEddYO-qrs-ZlPs5KHPnMrec-A';
     const history = [];
 
     document.getElementById('chatInput').addEventListener('keypress', e => {
@@ -64,15 +64,14 @@
 
       addMessage(text, 'user');
       history.push({ role: 'user', parts: [{ text }] });
-
       addMessage('...', 'bot', 'typing');
 
       try {
-        const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent', {
+        const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'x-goog-api-key': API_KEY
+            'X-goog-api-key': API_KEY
           },
           body: JSON.stringify({
             contents: [
@@ -84,7 +83,6 @@
         const data = await res.json();
         const reply = data.candidates[0].content.parts[0].text;
         history.push({ role: 'model', parts: [{ text: reply }] });
-
         removeTyping();
         addMessage(reply, 'bot');
       } catch (e) {
