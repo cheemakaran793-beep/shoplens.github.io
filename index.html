@@ -26,7 +26,8 @@
     </div>
     <div class="nav-right">
       <button class="theme-btn" onclick="toggleTheme()">🌙</button>
-      <button class="nav-btn">📷 Get Started</button>
+      <!-- Updated Trigger Button -->
+      <button class="nav-btn" onclick="document.getElementById('photoInput').click()">📷 Get Started</button>
     </div>
   </nav>
 
@@ -36,7 +37,8 @@
         Find anything<br>you see<br>with <span class="ai-text">AI.</span>
       </h1>
       <p class="subtext">Upload a screenshot and let our vision engine identify the product, compare prices, and find where to buy it instantly.</p>
-      <div class="cta-card">
+      <!-- Updated CTA Card Trigger -->
+      <div class="cta-card" onclick="document.getElementById('photoInput').click()" style="cursor:pointer">
         <div class="cta-icon">📷</div>
         <div class="cta-words">
           <strong>Get Started</strong>
@@ -76,6 +78,9 @@
       </div>
     </div>
   </section>
+
+  <!-- Hidden Trigger Element -->
+  <input type="file" id="photoInput" accept="image/*" capture="environment" style="display: none;" onchange="handlePhoto(event)">
 
   <section class="features">
     <div class="feat">
