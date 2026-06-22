@@ -49,8 +49,10 @@
 
   <script src="script.js"></script>
   <script>
-    const API_KEY = 'AQ.Ab8RN6IqnijgqJPFT73zv98jXEddYO-qrs-ZlPs5KHPnMrec-A';
-    const history = [];
+    const API_KEY = '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';
+    const messages = [
+      { role: 'system', content: 'You are Shoplens AI Assistant — friendly, helpful, expert in shopping, products, scam detection and the Shoplens app. Keep answers concise and helpful.' }
+    ];
 
     document.getElementById('chatInput').addEventListener('keypress', e => {
       if (e.key === 'Enter') sendMessage();
@@ -63,26 +65,26 @@
       input.value = '';
 
       addMessage(text, 'user');
-      history.push({ role: 'user', parts: [{ text }] });
+      messages.push({ role: 'user', content: text });
       addMessage('...', 'bot', 'typing');
 
       try {
-        const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent', {
+        const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-goog-api-key': API_KEY
+            'Authorization': `Bearer ${API_KEY}`,
+            'HTTP-Referer': 'https://shoplens171.github.io',
+            'X-Title': 'Shoplens'
           },
           body: JSON.stringify({
-            contents: [
-              { role: 'user', parts: [{ text: 'You are Shoplens AI Assistant — friendly, helpful, expert in shopping, products, scam detection and the Shoplens app. Keep answers concise and helpful.' }] },
-              ...history
-            ]
+            model: 'mistralai/mistral-7b-instruct:free',
+            messages: messages
           })
         });
         const data = await res.json();
-        const reply = data.candidates[0].content.parts[0].text;
-        history.push({ role: 'model', parts: [{ text: reply }] });
+        const reply = data.choices[0].message.content;
+        messages.push({ role: 'assistant', content: reply });
         removeTyping();
         addMessage(reply, 'bot');
       } catch (e) {
