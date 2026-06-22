@@ -34,9 +34,17 @@ export default async function handler(req, res) {
     const data = await response.json();
     
     // Groq uses the standard OpenAI response format
-    const reply = data.choices?.[0]?.message?.content || 'Sorry, I could not get a response.';
-    res.status(200).json({ reply });
+    const data = await response.json();
 
+console.log("Groq response:", data);
+
+if (!response.ok) {
+  return res.status(response.status).json(data);
+}
+
+res.status(200).json({
+  reply: data.choices[0].message.content
+});
   } catch (error) {
     console.error('Error:', error);
     res.status(500).json({ error: 'Something went wrong. Please try again.' });
