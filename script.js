@@ -37,7 +37,18 @@ cards.forEach(card => {
   observer.observe(card);
 });
 
-const cta = document.querySelector('.cta-card');
-if (cta) cta.addEventListener('click', () => window.location.href = 'search.html');
-const navBtn = document.querySelector('.nav-btn');
-if (navBtn) navBtn.addEventListener('click', () => window.location.href = 'search.html');
+// ... (Keep all your existing theme and intersection observer code above this)
+
+const fileInput = document.getElementById('fileInput');
+const cta = document.getElementById('heroCaptureBtn');
+const navBtn = document.getElementById('navCaptureBtn');
+
+if (cta) cta.addEventListener('click', () => fileInput.click());
+if (navBtn) navBtn.addEventListener('click', () => fileInput.click());
+
+fileInput.addEventListener('change', (e) => {
+  if (e.target.files.length > 0) {
+    console.log("File uploaded:", e.target.files[0].name);
+    // Add your AI processing code here
+  }
+});
