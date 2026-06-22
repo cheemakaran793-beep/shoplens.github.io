@@ -33,85 +33,83 @@
     <p>Real trending products updated automatically.</p>
   </div>
 
-<div id="trendingGrid">
+  <div id="trendingGrid">
 
-  <section class="trend-section">
-    <h2>👕 Clothing</h2>
-    <div class="trend-row" id="clothing"></div>
-  </section>
+    <section class="trend-section">
+      <h2>👕 Clothing</h2>
+      <div class="trend-row" id="clothing"></div>
+    </section>
 
-  <section class="trend-section">
-    <h2>👟 Shoes</h2>
-    <div class="trend-row" id="shoes"></div>
-  </section>
+    <section class="trend-section">
+      <h2>👟 Shoes</h2>
+      <div class="trend-row" id="shoes"></div>
+    </section>
 
-  <section class="trend-section">
-    <h2>💄 Beauty</h2>
-    <div class="trend-row" id="beauty"></div>
-  </section>
+    <section class="trend-section">
+      <h2>💄 Beauty</h2>
+      <div class="trend-row" id="beauty"></div>
+    </section>
 
-  <section class="trend-section">
-    <h2>⌚ Accessories</h2>
-    <div class="trend-row" id="accessories"></div>
-  </section>
+    <section class="trend-section">
+      <h2>⌚ Accessories</h2>
+      <div class="trend-row" id="accessories"></div>
+    </section>
 
-  <section class="trend-section">
-    <h2>📱 Gadgets</h2>
-    <div class="trend-row" id="gadgets"></div>
-  </section>
+    <section class="trend-section">
+      <h2>📱 Gadgets</h2>
+      <div class="trend-row" id="gadgets"></div>
+    </section>
 
-</div>
+  </div>
 
   <script src="script.js"></script>
 
   <script>
     async function loadTrending() {
-
-      const grid = document.getElementById("trendingGrid");
-
       try {
-
         const response = await fetch("/api/trending");
         const items = await response.json();
 
-        if (!Array.isArray(items)) {
-          throw new Error("Invalid data");
-        }
+        if (!Array.isArray(items)) throw new Error("Invalid data");
 
-        grid.innerHTML = items.map(item => `
-          <div class="trend-card">
-            ${item.image ? `
-              <img src="${item.image}"
-                   style="width:100%;height:180px;object-fit:cover;border-radius:18px;margin-bottom:15px;">
-            ` : ""}
+        // List of IDs matching your HTML structure
+        const sections = ['clothing', 'shoes', 'beauty', 'accessories', 'gadgets'];
 
-            <div class="trend-emoji">${item.emoji}</div>
+        sections.forEach(catId => {
+          const container = document.getElementById(catId);
+          if (!container) return;
 
-            <h3>${item.name}</h3>
+          // Filter items by category name
+          const filtered = items.filter(item => item.category?.toLowerCase() === catId);
 
-            <p>${item.trend}</p>
+          container.innerHTML = filtered.map(item => `
+            <div class="trend-card">
+              ${item.image ? `
+                <img src="${item.image}" 
+                     style="width:100%;height:180px;object-fit:cover;border-radius:18px;margin-bottom:15px;">
+              ` : ""}
+              
+              <div class="trend-emoji">${item.emoji}</div>
+              <h3>${item.name}</h3>
+              <p>${item.trend}</p>
+              
+              <p style="font-weight:700;margin-top:8px;">
+                ${new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(item.price)}
+              </p>
 
-            <p style="font-weight:700;margin-top:8px;">
-              ${item.price}
-            </p>
-
-            <span class="trend-hot">${item.heat}</span>
-
-          </div>
-        `).join("");
+              <span class="trend-hot">${item.heat}</span>
+            </div>
+          `).join("");
+        });
 
       } catch (err) {
-
         console.error(err);
-
-        grid.innerHTML = `
-          <p style="text-align:center;color:var(--muted);padding:40px;grid-column:1/-1">
+        document.getElementById("trendingGrid").innerHTML = `
+          <p style="text-align:center;color:var(--muted);padding:40px;">
             ❌ Could not load trends. Try again later.
           </p>
         `;
-
       }
-
     }
 
     loadTrending();
