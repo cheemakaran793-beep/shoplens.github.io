@@ -37,16 +37,16 @@
 
   <script src="script.js"></script>
   <script>
-    const API_KEY = 'AQ.Ab8RN6LLOIPDJ94G-IyPSz9fhnswnNo8dEtrnwO6poGqHgQ-Gg';
+    const API_KEY = 'AQ.Ab8RN6IqnijgqJPFT73zv98jXEddYO-qrs-ZlPs5KHPnMrec-A';
 
     async function loadTrending() {
       const grid = document.getElementById('trendingGrid');
       try {
-        const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent', {
+        const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'x-goog-api-key': API_KEY
+            'X-goog-api-key': API_KEY
           },
           body: JSON.stringify({
             contents: [{
