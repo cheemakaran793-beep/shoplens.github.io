@@ -49,7 +49,7 @@
 
   <script src="script.js"></script>
   <script>
-    const API_KEY = 'AQ.Ab8RN6LLOIPDJ94G-IyPSz9fhnswnNo8dEtrnwO6poGqHgQ-Gg';
+    const API_KEY = 'AQ.Ab8RN6IqnijgqJPFT73zv98jXEddYO-qrs-ZlPs5KHPnMrec-A';
 
     function quickSearch(q) {
       document.getElementById('searchInput').value = q;
@@ -63,11 +63,11 @@
       grid.innerHTML = '<p style="text-align:center;color:var(--muted);padding:40px">🔍 Searching...</p>';
 
       try {
-        const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent', {
+        const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'x-goog-api-key': API_KEY
+            'X-goog-api-key': API_KEY
           },
           body: JSON.stringify({
             contents: [{
