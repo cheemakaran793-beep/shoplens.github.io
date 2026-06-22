@@ -661,3 +661,12 @@ body {
   .features { overflow-x: visible; margin: 0 24px 40px; }
   .chat-input-bar { left: 50%; transform: translateX(-50%); border-radius: 20px 20px 0 0; }
 }
+@media (max-width: 650px) {
+  .nav-links {
+    display: flex !important;
+    gap: 10px !important;
+  }
+  .nav-link {
+    font-size: 0.7rem !important;
+  }
+}
