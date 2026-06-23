@@ -78,3 +78,28 @@ if (document.readyState === 'loading') {
 } else {
   initApp();
 }
+document.addEventListener('DOMContentLoaded', () => {
+    const getStartedBtn = document.getElementById('getStartedBtn'); // Make sure this ID matches your HTML
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+
+    getStartedBtn.addEventListener('click', () => fileInput.click());
+
+    fileInput.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        
+        reader.onloadend = async () => {
+            const response = await fetch('/api/scan', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ image: reader.result })
+            });
+            const data = await response.json();
+            // Trigger your iOS-style overlay modal here with the 'data'
+            showModal(data); 
+        };
+        reader.readAsDataURL(file);
+    });
+});
