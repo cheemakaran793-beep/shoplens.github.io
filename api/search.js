@@ -16,8 +16,9 @@ export default async function handler(req, res) {
       rating: p.rating || "N/A",
       price: p.price || "Check site",
       status: "SAFE",
-      // "btnI=I" forces Google to jump to the first search result automatically
-      url: `https://www.google.com/search?q=${encodeURIComponent(p.title + " " + (p.source || "Amazon"))}&btnI=I`,
+      // FIX: Use 'product_link' or 'link'. If you want to avoid the redirect notice,
+      // we remove the "btnI=I" and just use the direct URL provided by the shop.
+      url: p.product_link || p.link, 
       image: p.thumbnail
     }));
 
