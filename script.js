@@ -57,38 +57,44 @@ document.addEventListener('DOMContentLoaded', () => {
             picker.click();
         });
 
-        picker.addEventListener('change', async (e) => {
+                picker.addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (!file) return;
 
-            // Simple 4MB safety check
-            if (file.size > 4000000) {
-                alert("File too large. Please use a smaller screenshot.");
-                return;
-            }
+            // 1. Alert user it's processing
+            alert("Analyzing your product... (Please wait)");
 
-            alert("Analyzing your product...");
+            // 2. Shrink the image to max 800px wide
+            const img = new Image();
+            img.src = URL.createObjectURL(file);
+            
+            img.onload = async () => {
+                const canvas = document.createElement('canvas');
+                const scale = Math.min(800 / img.width, 800 / img.height);
+                canvas.width = img.width * scale;
+                canvas.height = img.height * scale;
+                
+                canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+                
+                // Convert to JPEG with medium quality to ensure it's < 1MB
+                const smallData = canvas.toDataURL('image/jpeg', 0.6);
 
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onloadend = async () => {
                 try {
                     const response = await fetch('/api/scan', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ image: reader.result })
+                        body: JSON.stringify({ image: smallData })
                     });
                     
                     const data = await response.json();
+                    
                     if (response.ok) {
-                        alert("Found: " + data.product_name + "\nPrice: " + (data.price || "Check link"));
+                        alert("Found: " + data.product_name + "\nPrice: " + data.price);
                     } else {
-                        alert("Server error: " + (data.error || "Unknown"));
+                        alert("Scan Failed: " + (data.error || "Server error"));
                     }
                 } catch (err) {
-                    alert("Scan failed. Check your internet.");
+                    alert("Network Error: " + err.message);
                 }
             };
         });
-    }
-});
