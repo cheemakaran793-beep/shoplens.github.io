@@ -1,4 +1,3 @@
-alert("script loaded");
 // ===========================================
 // 1. Theme and Animation Logic (ORIGINAL - UNCHANGED)
 // ===========================================
