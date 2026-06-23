@@ -16,8 +16,8 @@ export default async function handler(req, res) {
       rating: p.rating || "N/A",
       price: p.price || "Check site",
       status: "SAFE",
-      // THE FIX: Force a search on Amazon.in instead of a fragile tracking link
-      url: `https://www.amazon.in/s?k=${encodeURIComponent(p.title)}`,
+      // "btnI=I" forces Google to jump to the first search result automatically
+      url: `https://www.google.com/search?q=${encodeURIComponent(p.title + " " + (p.source || "Amazon"))}&btnI=I`,
       image: p.thumbnail
     }));
 
