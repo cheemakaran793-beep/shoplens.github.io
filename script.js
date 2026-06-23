@@ -1,3 +1,18 @@
+window.onload = function() {
+    const trigger = document.getElementById('scanTrigger');
+    const picker = document.getElementById('filePicker');
+
+    if (!trigger) {
+        alert("Error: scanTrigger not found in HTML!");
+    } else if (!picker) {
+        alert("Error: filePicker not found in HTML!");
+    } else {
+        trigger.addEventListener('click', function() {
+            picker.click();
+        });
+    }
+};
+
 // ===============================
 // --- Theme Handling (FIXED) ---
 // ===============================
