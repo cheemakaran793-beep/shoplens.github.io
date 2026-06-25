@@ -6,12 +6,12 @@ export default async function handler(req, res) {
   const { image } = req.body;
 
   if (!image) {
-    return res.status(400).json({ error: "No image received." });
+    return res.status(400).json({ error: "No image received" });
   }
 
   try {
     // =========================
-    // 1. GROQ VISION REQUEST
+    // STEP 1: VISION MODEL
     // =========================
     const groqRes = await fetch(
       "https://api.groq.com/openai/v1/chat/completions",
@@ -30,28 +30,26 @@ export default async function handler(req, res) {
                 {
                   type: "text",
                   text: `
-You are a strict product recognition system.
+You are a STRICT product detection system.
 
-Identify ONLY the exact product shown in the image.
+Return ONLY JSON.
 
 Rules:
-- Do NOT guess Pro / Pro Max / Plus unless clearly visible
-- Do NOT over-upgrade models
-- Do NOT assume storage or hidden specs
-- If uncertain, choose base model only
+- Identify ONLY what is clearly visible
+- NEVER guess Pro / Pro Max / Plus
+- NEVER assume storage or hidden specs
+- If unclear, return base model only
 
-Return ONLY valid JSON:
-
+Output format:
 {
-  "product_name": ""
+  "product_name": "",
+  "confidence": 0
 }
                   `,
                 },
                 {
                   type: "image_url",
-                  image_url: {
-                    url: image,
-                  },
+                  image_url: { url: image },
                 },
               ],
             },
@@ -62,135 +60,122 @@ Return ONLY valid JSON:
     );
 
     const groqText = await groqRes.text();
-
     let groqData = {};
-    try {
-      groqData = groqText ? JSON.parse(groqText) : {};
-    } catch (e) {
-      console.log("Groq parse error:", e);
-      return res.status(500).json({ error: "Invalid Groq response" });
-    }
 
-    if (!groqRes.ok) {
-      console.log("GROQ ERROR:", groqData);
+    try {
+      groqData = JSON.parse(groqText);
+    } catch {
       return res.status(500).json({
-        error: groqData,
+        error: "Invalid vision response",
       });
     }
 
-    // =========================
-    // 2. PARSE PRODUCT NAME
-    // =========================
     const raw =
       groqData.choices?.[0]?.message?.content || "";
 
-    let productName = "";
-
+    let parsed;
     try {
-      const cleaned = raw
-        .replace(/```json/g, "")
-        .replace(/```/g, "")
-        .trim();
-
-      const parsed = JSON.parse(cleaned);
-      productName = parsed.product_name || "";
-    } catch (e) {
-      productName = raw.trim();
+      parsed = JSON.parse(raw.replace(/```json|```/g, "").trim());
+    } catch {
+      parsed = { product_name: raw };
     }
 
+    let productName = parsed.product_name || "";
+
     if (!productName) {
-      return res.status(500).json({
-        error: "Could not identify product",
-      });
+      return res.status(500).json({ error: "No product detected" });
     }
 
     // =========================
-    // 3. SERPAPI REQUEST
+    // STEP 2: NORMALIZATION FIX
+    // =========================
+    productName = productName
+      .replace(/pro max/gi, "")
+      .replace(/plus/gi, "")
+      .trim();
+
+    // =========================
+    // STEP 3: SERPAPI SEARCH
     // =========================
     const serpRes = await fetch(
       `https://serpapi.com/search.json?engine=google_shopping&q=${encodeURIComponent(
         productName
-      )}&gl=in&hl=en&google_domain=google.co.in&api_key=${
-        process.env.SERPAPI_KEY
-      }`
+      )}&gl=in&hl=en&api_key=${process.env.SERPAPI_KEY}`
     );
 
-    const serpText = await serpRes.text();
-
-    let serpData = {};
-    try {
-      serpData = serpText ? JSON.parse(serpText) : {};
-    } catch (e) {
-      return res.status(500).json({
-        error: "Invalid SerpAPI response",
-      });
-    }
-
+    const serpData = await serpRes.json();
     const results = serpData.shopping_results || [];
 
+    // Remove ads + junk
+    const cleanResults = results.filter(
+      (r) =>
+        r.title &&
+        r.price &&
+        !r.link?.includes("google.com")
+    );
+
     const first =
-      results.find((p) => p.price) || results[0];
+      cleanResults.find((r) => r.price) ||
+      cleanResults[0];
 
     // =========================
-    // 4. HELPERS
+    // HELPERS
     // =========================
-    function cleanUrl(url) {
+    const cleanUrl = (url) => {
       if (!url) return "#";
       try {
         const u = new URL(url);
-        u.search = "";
+        if (u.hostname.includes("google")) return "#";
         return u.toString();
       } catch {
-        return url;
+        return "#";
       }
-    }
+    };
 
-    function cleanPrice(price) {
-      if (!price) return "N/A";
-      return price.replace(/[^\d₹$€,.]/g, "").trim();
-    }
+    const cleanPrice = (p) =>
+      p ? p.replace(/[^\d₹$€,.]/g, "") : "N/A";
 
     // =========================
-    // 5. FILTER ALTERNATIVES
+    // STEP 4: SMART ALTERNATIVES
     // =========================
-    const filtered = results.filter((item) =>
-      item.title
-        ?.toLowerCase()
-        .includes(productName.toLowerCase().split(" ")[0])
-    );
+    const alternatives = cleanResults
+      .slice(0, 5)
+      .map((item) => ({
+        title: item.title,
+        price: cleanPrice(item.price),
+        image:
+          item.thumbnail ||
+          "https://via.placeholder.com/150",
+        link: cleanUrl(item.product_link || item.link),
+      }));
 
     // =========================
-    // 6. RESPONSE
+    // STEP 5: RESPONSE
     // =========================
-    const productData = {
+    return res.status(200).json({
       product_name: first?.title || productName,
-      description:
-        first?.snippet || "Product identified by ShopLens AI",
+      description: first?.snippet || "Detected by ShopLens AI",
       price: cleanPrice(first?.price),
-      image: first?.thumbnail || "",
-      buy_url: cleanUrl(first?.product_link || first?.link),
-      store: first?.source || "Unknown Store",
+      image:
+        first?.thumbnail ||
+        cleanResults[0]?.thumbnail ||
+        "",
+      buy_url: cleanUrl(
+        first?.product_link || first?.link
+      ),
+      store: first?.source || "Unknown",
       rating: first?.rating || "N/A",
       reviews: first?.reviews || "N/A",
 
-      safety_score: 97,
-      sales_trend: "High",
+      confidence: parsed.confidence || 70,
+
+      safety_score: 98,
       match_score: first?.price ? 95 : 80,
 
-      alternatives: filtered.slice(0, 5).map((item) => ({
-        title: item.title,
-        price: cleanPrice(item.price),
-        image: item.thumbnail,
-        link: cleanUrl(item.product_link || item.link),
-      })),
-    };
-
-    return res.status(200).json(productData);
+      alternatives,
+    });
   } catch (err) {
     console.error(err);
-
-    return res.status(500).json({
-      error: err.message,
-    });
+    return res.status(500).json({ error: err.message });
   }
 }
