@@ -1136,3 +1136,12 @@ width:100%;
 border-radius:12px;
 margin-bottom:10px;
 }
+html,
+body{
+overflow-x:hidden;
+width:100%;
+}
+
+*{
+box-sizing:border-box;
+}
