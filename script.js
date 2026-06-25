@@ -177,30 +177,39 @@ const file = e.target.files[0];
     const resultBox = document.getElementById("scanResultContainer");
 
     resultBox.innerHTML = `
-    <div class="scan-result-card">
+<div class="scan-result-card">
 
-        <img src="${data.image}" class="scan-product-image">
+<img src="${data.image}" class="scan-product-image">
 
-        <div class="scan-product-info">
+<div class="scan-product-info">
 
-            <h3>${data.product_name}</h3>
+<h2>${data.product_name}</h2>
 
-            <p>Product identified by ShopLens AI</p>
+<p>${data.description}</p>
 
-            <div class="scan-badges">
-                <span>💰 ${data.price || "N/A"}</span>
-                <span>🛡 Trusted</span>
-                <span>🔥 Trending</span>
-            </div>
+<div class="score-row">
+<span>🎯 ${data.match_score}% Match</span>
+<span>🛡 ${data.safety_score}% Safe</span>
+</div>
 
-            <a href="${data.buy_url}" target="_blank" class="visit-store-btn">
-                Visit Store →
-            </a>
+<div class="price-row">
+💰 ${data.price}
+</div>
 
-        </div>
+<div class="store-row">
+🏪 ${data.store}
+</div>
 
-    </div>
-    `;
+<a href="${data.buy_url}"
+target="_blank"
+class="visit-store-btn">
+Visit Store →
+</a>
+
+</div>
+
+</div>
+`;
 
 } else {
     alert("Error: " + (data.error || "Scan failed"));
