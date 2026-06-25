@@ -109,7 +109,22 @@ trigger.addEventListener('click', () => {
         // LOADING UI (NO ALERT FREEZE)
         const loader = document.createElement("div");
         loader.id = "scanLoader";
-        loader.innerHTML = "🔍 Analyzing your product...";
+        loader.innerHTML = `
+<div class="scan-loader-box">
+    <div class="scan-orb"></div>
+
+    <h3>ShopLens AI</h3>
+
+    <p>Analyzing product...</p>
+
+    <div class="scan-steps">
+      <span>✓ Upload received</span>
+      <span id="step2">⏳ Identifying item</span>
+      <span id="step3">⏳ Checking stores</span>
+      <span id="step4">⏳ Comparing prices</span>
+    </div>
+</div>
+`;
         loader.style.cssText = `
             position:fixed;
             top:50%;
