@@ -73,9 +73,12 @@ Return JSON only.
   });
 }
 
-    const raw =
+  const raw =
   groqData.choices?.[0]?.message?.content || "";
 
+console.log("========== GROQ RAW RESPONSE ==========");
+console.log(raw);
+console.log("======================================");
 let productName = "";
 
 try {
@@ -86,8 +89,12 @@ try {
 
   const parsed = JSON.parse(cleaned);
 
-  productName = parsed.product_name;
-} catch {
+  productName = parsed.product_name || "";
+} catch (err) {
+
+  console.log("JSON PARSE FAILED");
+  console.log(err);
+
   productName = raw.trim();
 }
 
