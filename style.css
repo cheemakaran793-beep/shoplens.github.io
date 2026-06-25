@@ -809,3 +809,56 @@ display:none;
 }
 
 }
+.scan-result-card{
+margin:20px;
+padding:20px;
+display:flex;
+gap:16px;
+align-items:center;
+background:rgba(255,255,255,.45);
+border:1.5px solid rgba(255,255,255,.8);
+border-radius:20px;
+backdrop-filter:blur(24px);
+box-shadow:0 8px 32px rgba(124,92,252,.08);
+}
+
+.scan-product-image{
+width:100px;
+height:100px;
+object-fit:cover;
+border-radius:14px;
+}
+
+.scan-product-info{
+flex:1;
+}
+
+.scan-product-info h3{
+font-family:var(--display);
+margin-bottom:8px;
+}
+
+.scan-badges{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+margin:10px 0;
+}
+
+.scan-badges span{
+padding:6px 10px;
+border-radius:50px;
+background:rgba(124,92,252,.12);
+font-size:.75rem;
+}
+
+.visit-store-btn{
+display:inline-block;
+padding:10px 16px;
+border-radius:50px;
+text-decoration:none;
+background:linear-gradient(135deg,var(--purple),var(--purple-dark));
+color:white;
+font-family:var(--display);
+font-weight:700;
+}
