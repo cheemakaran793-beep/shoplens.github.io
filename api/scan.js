@@ -24,30 +24,30 @@ export default async function handler(req, res) {
 content: [
   {
     type: "text",
-    text: `Identify the EXACT product shown in this image.
+    text: `
+Identify the product shown in this image.
+
+Return ONLY valid JSON.
+
+Example:
+
+{
+  "product_name":"Apple iPhone 14 White"
+}
 
 Rules:
+- Include brand
+- Include model
+- Include color if visible
+- Include variant if visible
 
-- Include brand name
-- Include model name
-- Include variant
-- Include color
-- Include edition
-- Include generation
-- Include size if visible
+Do not explain.
+Do not think step by step.
+Do not provide analysis.
+Do not provide markdown.
 
-Examples:
-
-Nike Air Max 270 Black Men's Running Shoes
-Apple AirPods Pro 2nd Generation USB-C
-Samsung Galaxy S24 Ultra Titanium Black
-
-Return ONLY the exact product title.
-
-No explanation.
-No extra text.
-No JSON.
-No markdown.`
+Return JSON only.
+`
   },
 
   {
