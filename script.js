@@ -242,7 +242,6 @@ Visit Store →
 </div>
 </div>
 `;
-`;
   const alternativesHtml =
 (data.alternatives || [])
 .map(item => `
