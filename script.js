@@ -183,6 +183,7 @@ Analyzing your product...
                 clearTimeout(timeout);
 
                 const data = await response.json();
+                console.log(data);
 
                 document.getElementById("scanLoader")?.remove();
 
