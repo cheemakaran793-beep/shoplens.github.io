@@ -162,12 +162,39 @@ trigger.addEventListener('click', () => {
 
                 document.getElementById("scanLoader")?.remove();
 
-                if (response.ok) {
-                    alert("Found: " + data.product_name + "\nPrice: " + (data.price || "N/A"));
-                } else {
-                    alert("Error: " + (data.error || "Scan failed"));
-                }
+             if (response.ok) {
 
+    const resultBox = document.getElementById("scanResultContainer");
+
+    resultBox.innerHTML = `
+    <div class="scan-result-card">
+
+        <img src="${data.image}" class="scan-product-image">
+
+        <div class="scan-product-info">
+
+            <h3>${data.product_name}</h3>
+
+            <p>Product identified by ShopLens AI</p>
+
+            <div class="scan-badges">
+                <span>💰 ${data.price || "N/A"}</span>
+                <span>🛡 Trusted</span>
+                <span>🔥 Trending</span>
+            </div>
+
+            <a href="${data.buy_url}" target="_blank" class="visit-store-btn">
+                Visit Store →
+            </a>
+
+        </div>
+
+    </div>
+    `;
+
+} else {
+    alert("Error: " + (data.error || "Scan failed"));
+}
             } catch (err) {
                 document.getElementById("scanLoader")?.remove();
                 alert("Scan failed or timed out. Try again.");
