@@ -112,20 +112,27 @@ const file = e.target.files[0];
         // LOADING UI (NO ALERT FREEZE)
         const loader = document.createElement("div");
         loader.id = "scanLoader";
-        loader.innerHTML = `
+       loader.innerHTML = `
 <div class="scan-loader-box">
-    <div class="scan-orb"></div>
 
-    <h3>ShopLens AI</h3>
+<div class="scan-orb"></div>
 
-    <p>Analyzing product...</p>
+<h2>ShopLens AI</h2>
 
-    <div class="scan-steps">
-      <span>✓ Upload received</span>
-      <span id="step2">⏳ Identifying item</span>
-      <span id="step3">⏳ Checking stores</span>
-      <span id="step4">⏳ Comparing prices</span>
-    </div>
+<p>Analyzing Screenshot</p>
+
+<div class="scan-progress">
+<div class="scan-progress-fill"></div>
+</div>
+
+<div class="scan-steps">
+<span>✓ Upload Received</span>
+<span>🔍 Detecting Product</span>
+<span>🏪 Searching Stores</span>
+<span>💰 Comparing Prices</span>
+<span>🧠 AI Matching</span>
+</div>
+
 </div>
 `;
         loader.style.cssText = `
