@@ -242,14 +242,21 @@ Visit Store →
 </div>
 </div>
 `;
-  const alternativesHtml =
+ const alternativesHtml =
 (data.alternatives || [])
 .map(item => `
-<div class="alt-card">
-<img src="${item.thumbnail}">
-<h4>${item.title}</h4>
+<a
+href="${item.product_link || item.link || '#'}"
+target="_blank"
+class="alt-card">
+
+<img src="${item.thumbnail || ''}">
+
+<h4>${item.title || 'Product'}</h4>
+
 <p>${item.price || "N/A"}</p>
-</div>
+
+</a>
 `).join("");
 
 resultBox.innerHTML += `
