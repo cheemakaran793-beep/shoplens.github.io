@@ -69,7 +69,11 @@ const productData = {
   description: first?.snippet || "Product identified by ShopLens AI",
   price: first?.price || "N/A",
   image: first?.thumbnail || "",
-  buy_url: first?.product_link || first?.link || "#",
+  buy_url:
+  first?.product_link ||
+  first?.link ||
+  first?.serpapi_product_api ||
+  "#",
   store: first?.source || "Unknown Store",
   rating: first?.rating || "N/A",
   reviews: first?.reviews || "N/A",
