@@ -11,7 +11,7 @@ export default async function handler(req, res) {
 
   try {
     // =========================
-    // STEP 1: VISION MODEL
+    // 1. VISION ANALYSIS
     // =========================
     const groqRes = await fetch(
       "https://api.groq.com/openai/v1/chat/completions",
@@ -30,17 +30,15 @@ export default async function handler(req, res) {
                 {
                   type: "text",
                   text: `
-You are a STRICT product detection system.
-
-Return ONLY JSON.
+STRICT PRODUCT DETECTION TASK
 
 Rules:
-- Identify ONLY what is clearly visible
-- NEVER guess Pro / Pro Max / Plus
-- NEVER assume storage or hidden specs
-- If unclear, return base model only
+- Identify ONLY what is visible
+- NEVER assume Pro / Pro Max / Plus
+- NEVER guess hidden specs
+- If uncertain → choose base model
 
-Output format:
+Return ONLY JSON:
 {
   "product_name": "",
   "confidence": 0
@@ -60,18 +58,16 @@ Output format:
     );
 
     const groqText = await groqRes.text();
-    let groqData = {};
 
+    let groqData;
     try {
       groqData = JSON.parse(groqText);
     } catch {
-      return res.status(500).json({
-        error: "Invalid vision response",
-      });
+      return res.status(500).json({ error: "Vision parsing failed" });
     }
 
     const raw =
-      groqData.choices?.[0]?.message?.content || "";
+      groqData?.choices?.[0]?.message?.content || "";
 
     let parsed;
     try {
@@ -87,7 +83,7 @@ Output format:
     }
 
     // =========================
-    // STEP 2: NORMALIZATION FIX
+    // 2. CLEAN PRODUCT NAME
     // =========================
     productName = productName
       .replace(/pro max/gi, "")
@@ -95,7 +91,7 @@ Output format:
       .trim();
 
     // =========================
-    // STEP 3: SERPAPI SEARCH
+    // 3. SERPAPI SEARCH
     // =========================
     const serpRes = await fetch(
       `https://serpapi.com/search.json?engine=google_shopping&q=${encodeURIComponent(
@@ -104,75 +100,74 @@ Output format:
     );
 
     const serpData = await serpRes.json();
-    const results = serpData.shopping_results || [];
-
-    // Remove ads + junk
-    const cleanResults = results.filter(
-      (r) =>
-        r.title &&
-        r.price &&
-        !r.link?.includes("google.com")
-    );
+    const results = serpData?.shopping_results || [];
 
     const first =
-      cleanResults.find((r) => r.price) ||
-      cleanResults[0];
+      results.find((r) => r.price) || results[0];
 
     // =========================
-    // HELPERS
+    // 4. SAFE HELPERS
     // =========================
     const cleanUrl = (url) => {
-      if (!url) return "#";
+      if (!url) return null;
       try {
         const u = new URL(url);
-        if (u.hostname.includes("google")) return "#";
         return u.toString();
       } catch {
-        return "#";
+        return null;
       }
     };
 
     const cleanPrice = (p) =>
-      p ? p.replace(/[^\d₹$€,.]/g, "") : "N/A";
+      p ? p.replace(/[^\d₹$€,.]/g, "").trim() : "N/A";
 
     // =========================
-    // STEP 4: SMART ALTERNATIVES
+    // 5. FILTER RESULTS
     // =========================
-    const alternatives = cleanResults
-      .slice(0, 5)
-      .map((item) => ({
-        title: item.title,
-        price: cleanPrice(item.price),
-        image:
-          item.thumbnail ||
-          "https://via.placeholder.com/150",
-        link: cleanUrl(item.product_link || item.link),
-      }));
+    const filtered = results.filter((item) =>
+      item.title?.toLowerCase().includes(
+        productName.toLowerCase().split(" ")[0]
+      )
+    );
 
     // =========================
-    // STEP 5: RESPONSE
+    // 6. BUILD RESPONSE
     // =========================
     return res.status(200).json({
       product_name: first?.title || productName,
       description: first?.snippet || "Detected by ShopLens AI",
+
       price: cleanPrice(first?.price),
+
       image:
         first?.thumbnail ||
-        cleanResults[0]?.thumbnail ||
+        results.find((r) => r.thumbnail)?.thumbnail ||
         "",
-      buy_url: cleanUrl(
-        first?.product_link || first?.link
-      ),
+
+      buy_url:
+        cleanUrl(first?.product_link) ||
+        cleanUrl(first?.link) ||
+        null,
+
       store: first?.source || "Unknown",
       rating: first?.rating || "N/A",
       reviews: first?.reviews || "N/A",
 
       confidence: parsed.confidence || 70,
-
       safety_score: 98,
       match_score: first?.price ? 95 : 80,
 
-      alternatives,
+      alternatives: filtered.slice(0, 5).map((item) => ({
+        title: item.title,
+        price: cleanPrice(item.price),
+        image:
+          item.thumbnail ||
+          "https://via.placeholder.com/150",
+        link:
+          cleanUrl(item.product_link) ||
+          cleanUrl(item.link) ||
+          null,
+      })),
     });
   } catch (err) {
     console.error(err);
