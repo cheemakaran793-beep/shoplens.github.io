@@ -43,12 +43,9 @@ const results = [];
 for (const category of categories) {
   try {
     const url =
-      `https://serpapi.com/search.json?engine=google_shopping` +
-      `&q=${encodeURIComponent(category.query)}` +
-      `&gl=in` +
-      `&hl=en` +
-      `&num=10` +
-      `&api_key=${SERPAPI_KEY}`;
+      `https://serpapi.com/search.json?engine=google_shopping&q=${encodeURIComponent(
+        category.query
+      )}&gl=in&hl=en&num=10&api_key=${SERPAPI_KEY}`;
 
     const response = await fetch(url);
     const data = await response.json();
@@ -71,11 +68,11 @@ for (const category of categories) {
       .filter(item => item && item.title)
       .slice(0, 8)
       .map(item => ({
-        name:
-          item.title || "Unknown Product",
+        name: item.title || "Unknown Product",
 
         price:
           item.price ||
+          item.extracted_price ||
           "Price unavailable",
 
         image:
@@ -85,6 +82,7 @@ for (const category of categories) {
 
         source:
           item.source ||
+          item.seller ||
           "Online Store",
 
         link:
@@ -107,14 +105,8 @@ for (const category of categories) {
           Math.floor(Math.random() * 50) + 10,
 
         badge:
-          [
-            "🔥 Hot",
-            "🚀 Rising",
-            "👑 Bestseller"
-          ][
-            Math.floor(
-              Math.random() * 3
-            )
+          ["🔥 Hot", "🚀 Rising", "👑 Bestseller"][
+            Math.floor(Math.random() * 3)
           ]
       }));
 
@@ -122,10 +114,6 @@ for (const category of categories) {
       title: category.title,
       products
     });
-
-    console.log(
-      `${category.title}: ${products.length} products`
-    );
 
   } catch (categoryError) {
     console.error(
@@ -161,7 +149,7 @@ return res.status(500).json({
     error.message ||
     "Internal Server Error"
 });
-```
+
 
 }
 }
