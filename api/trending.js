@@ -39,7 +39,6 @@ query: "trending gadgets india"
 try {
 const results = [];
 
-```
 for (const category of categories) {
   try {
     const url =
@@ -134,7 +133,6 @@ return res.status(200).json({
   total_categories: results.length,
   categories: results
 });
-```
 
 } catch (error) {
 console.error(
@@ -142,7 +140,6 @@ console.error(
 error
 );
 
-```
 return res.status(500).json({
   success: false,
   error:
